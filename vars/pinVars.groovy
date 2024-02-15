@@ -1,11 +1,11 @@
 def call() {
     def pinVars = [:]
 
-    pinVars.buildDockerImage = {  ->
+    pinVars.buildDockerImage = { imageName, version ->
         sh """
-                docker build -t "$DOCKER_USER"/pin-1jenkins:"$version .
-                docker images
-            """
+            docker build -t $imageName:$version .
+            docker images
+        """
     }
 
     pinVars.pushDockerImage = { imageName, version, directory ->
@@ -14,14 +14,12 @@ def call() {
         """
     }
 
-    pinVars.dockerLogin = { registryUrl ->
+    pinVars.dockerLogin = {  ->
         withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
-            withDockerRegistry([url: registryUrl]) {
-                return true
-            }
-            
+            sh  """
+                docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+            """
         }
-        return false
     }
 
     return pinVars
