@@ -19,6 +19,7 @@ def call() {
             withDockerRegistry([url: registryUrl]) {
                 return true
             }
+            echo "${DOCKER_USER}/pin-1jenkins, ${version}"
         }
         return false
     }
