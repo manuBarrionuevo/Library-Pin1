@@ -4,11 +4,11 @@ def call() {
     def pinVars = [:]
 
     pinVars.buildDockerImage = { imageName, version, directory ->
-    echo "Directorio actual: ${pwd()}"
+        echo "Directorio actual: ${pwd()}"
         dir(directory) {
-            sh """
+            sh '''
                 ls -la
-            """
+            '''
         }
     }
 
@@ -19,13 +19,12 @@ def call() {
     }
 
     pinVars.dockerLogin = { registryUrl ->
-    echo "Intentando iniciar sesión en Docker Hub con la URL: ${registryUrl}"
         withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
             withDockerRegistry([url: registryUrl]) {
                 return true
             }
         }
-        echo "No se pudo iniciar sesión en Docker Hub."
+
         return false
     }
 
