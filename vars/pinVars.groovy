@@ -19,6 +19,7 @@ def call() {
             sh  """
                 docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
             """
+            pinVarsInstance.buildDockerImage("${DOCKER_USER}/pin-1jenkins", "${version}")
         }
     }
 
