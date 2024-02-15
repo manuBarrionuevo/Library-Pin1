@@ -6,7 +6,7 @@ def call() {
     pinVars.buildDockerImage = { imageName, version, directory ->
         dir(directory) {
             sh """
-                docker build -t $imageName:$version .
+                ls -la
             """
         }
     }
