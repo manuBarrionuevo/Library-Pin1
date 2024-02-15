@@ -1,9 +1,9 @@
 def call() {
     def pinVars = [:]
 
-    pinVars.buildDockerImage = { imageName, version ->
+    pinVars.buildDockerImage = {  ->
         sh """
-                docker build -t $imageName:$version .
+                docker build -t "$DOCKER_USER"/pin-1jenkins:"$version .
                 docker images
             """
     }
@@ -19,7 +19,7 @@ def call() {
             withDockerRegistry([url: registryUrl]) {
                 return true
             }
-            echo "${imagenName}:${version}"
+            
         }
         return false
     }
